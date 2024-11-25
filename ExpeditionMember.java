@@ -5,7 +5,7 @@ public class ExpeditionMember {
 
     public void ExpeditionMemberIncrement(){
         member_counter++;
-        System.out.println(member_counter);
+        System.out.println("this is how many members: " + member_counter);
     }
 
     //initalise
