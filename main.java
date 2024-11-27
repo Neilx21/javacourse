@@ -1,54 +1,55 @@
 import java.util.Random;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 
 public class main {
     public static void main(String[] args) {
-//        Set<Integer> uniqueNumbers = new HashSet<>(); //set has no duplicate, hash for faster access
         Random random = new Random();
+
         // Create and initialize an array with six student names
         String[] allNames = {"Alice", "Bob", "Charlie", "David", "Eva", "Frank"};
         int[] allStudentIDs = {101, 102, 103, 104, 105, 106};
 
-        //4 is starting point, 3 means range so 4,5,6 where 4 is inclusive
+        // Generate random number of members (4 to 6 members)
         int randomNoMember = random.nextInt(3) + 4;
-        System.out.println(randomNoMember);
+        System.out.println("Random number of members: " + randomNoMember);
 
-        ExpeditionMember[] members = new ExpeditionMember[randomNoMember];
-        int[] membersArray = new int[randomNoMember];
+        // Set to store unique member indices
+        Set<Integer> membersSet = new LinkedHashSet<>();
 
-
-//            for (int num : membersArray) {
-//                if (randomNumber == num) {
-//                    add = false;
-//                }
-//            }
-//            if (add){
-//                membersArray[i] = randomNumber;
-//            }
+        // Generate unique random indices for selecting members
+        while (membersSet.size() < randomNoMember) {
+            int randomMember = random.nextInt(allNames.length); // Random number between 0 and 5
+            membersSet.add(randomMember);  // Ensures uniqueness
         }
 
-//        for (int i = 0; i < membersArray.length; i++) {
-//            System.out.println(membersArray[i]);
-//        }
+        // Create an array to store ExpeditionMember objects
+        ExpeditionMember[] members = new ExpeditionMember[randomNoMember];
 
-        //set used to make sure there is duplicate via key pair
-//        while (uniqueNumbers.size() < randomNoMember){
-//            int randomNumber = random.nextInt(6) + 0;
-////            uniqueNumbers.add(randomNumber);
-//            uniqueNumbers.add(randomNumber);
-//        }
-//
-//        // Convert the Set to a List
-//        List<Integer> uniqueNumbersList = new ArrayList<>(uniqueNumbers);
-//        System.out.println(uniqueNumbersList);
-//        for (int i = 0; i<uniqueNumbersList.size(); i++){
-//            members[i] = new ExpeditionMember(allNames[uniqueNumbersList.get(i)], allStudentIDs[uniqueNumbersList.get(i)]);
-////            System.out.println("Member " + (i + 1) + ": " + members[i].getMemberName() + " with ID " + members[i].getStudentID());
-//        }
+        // Convert the Set to an array (to maintain insertion order)
+        int index = 0;
+        for (Integer memberIndex : membersSet) {
+            String memberName = allNames[memberIndex];  // Get the name using the random index
+            int studentID = allStudentIDs[memberIndex];  // Get the ID using the same random index
 
-//        ResearchExpedition pyramidExpedition = new ResearchExpedition()
+            // Add the ExpeditionMember to the array
+            members[index++] = new ExpeditionMember(memberName, studentID);
+        }
+        System.out.println(membersSet);
 
+        ResearchExpedition pyramidExpedition = new ResearchExpedition(members[0], members[1],members[2]);
+        ResearchExpedition nileExpedition = new ResearchExpedition(members[members.length -3 ], members[members.length -2],members[members.length -1]);
+        System.out.println("Pyramid Expedition: ");
+        System.out.println("Expedition Leader: " + pyramidExpedition.getExpeditionLeaderName());
+        System.out.println("Archivist: " + pyramidExpedition.getArchivistName());
+        System.out.println("Field Researcher: " + pyramidExpedition.getFieldResearcherName());
+        System.out.println("Nile Expedition: ");
+        System.out.println("Expedition Leader: " + nileExpedition.getExpeditionLeaderName());
+        System.out.println("Archivist: " + nileExpedition.getArchivistName());
+        System.out.println("Field Researcher: " + nileExpedition.getFieldResearcherName());
+
+        if(ExpeditionMember.member_counter == members.length) {
+            System.out.println("SUCCESS");
+        }
+    }
 }
